@@ -4,7 +4,7 @@ import numpy as np
 import librosa
 import tensorflow as tf
 
-model = tf.keras.models.load_model("crnn_best.keras")
+model = tf.keras.models.load_model("crnn_best.keras", compile=False)
 
 SR = 16000
 DURATION = 3.0
