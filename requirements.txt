@@ -3,3 +3,4 @@ tensorflow==2.19.1
 librosa==0.10.2.post1
 numpy
 soundfile
+h5py
