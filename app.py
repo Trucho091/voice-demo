@@ -7,7 +7,7 @@ import tensorflow as tf
 print("Starting app...")
 print("Loading model...")
 
-model = tf.keras.models.load_model("crnn_best.keras", compile=False)
+model = tf.keras.models.load_model("crnn_clean.h5", compile=False)
 
 print("Model loaded successfully.")
 
@@ -20,7 +20,6 @@ IMG_W = 128
 N_MELS = 128
 N_FFT = 1024
 HOP = 256
-
 
 def preprocess(audio_path):
     y, sr = librosa.load(audio_path, sr=SR, mono=True)
@@ -46,7 +45,6 @@ def preprocess(audio_path):
 
     return log_mel
 
-
 def predict(audio):
     if audio is None:
         return {"Female": 0.0, "Male": 0.0, "Noise": 0.0}
@@ -62,7 +60,6 @@ def predict(audio):
         "Noise": float(pred[2])
     }
 
-
 demo = gr.Interface(
     fn=predict,
     inputs=gr.Audio(type="filepath", label="Upload audio"),
@@ -71,11 +68,5 @@ demo = gr.Interface(
     description="Upload audio để phân loại: Female / Male / Noise"
 )
 
-print("Launching Gradio...")
-
 port = int(os.environ.get("PORT", 7860))
-demo.launch(
-    server_name="0.0.0.0",
-    server_port=port,
-    show_error=True
-)
+demo.launch(server_name="0.0.0.0", server_port=port, show_error=True)
