@@ -1,9 +1,10 @@
+import os
 import gradio as gr
 import numpy as np
 import librosa
 import tensorflow as tf
 
-model = tf.keras.models.load_model("gender_voice_best.keras")
+model = tf.keras.models.load_model("crnn_best.keras")
 
 SR = 16000
 DURATION = 3.0
@@ -26,7 +27,8 @@ def preprocess(audio_path):
     y = y / (np.max(np.abs(y)) + 1e-8)
 
     mel = librosa.feature.melspectrogram(
-        y=y, sr=SR,
+        y=y,
+        sr=SR,
         n_mels=N_MELS,
         n_fft=N_FFT,
         hop_length=HOP
@@ -56,4 +58,5 @@ demo = gr.Interface(
     title="🎤 Gender Voice Classifier"
 )
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
+port = int(os.environ.get("PORT", 7860))
+demo.launch(server_name="0.0.0.0", server_port=port)
